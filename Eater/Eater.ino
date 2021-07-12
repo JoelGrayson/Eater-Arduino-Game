@@ -119,7 +119,7 @@ void startGame(bool showInstructionsParameter) {
     lcd.print("Level ");
     lcd.print(level);
     lcd.print("/5"); //5 levels
-    delay(300);
+    delay(1000);
     lcd.clear();
     if (level==1) {
       numSpikes=1;
