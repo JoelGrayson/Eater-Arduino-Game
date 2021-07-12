@@ -4,12 +4,12 @@ LiquidCrystal lcd(2, 3, 6, 7, 8, 9);
 //<Preferences>
 
 //General
-int framesPerSec=5; //fps
+byte framesPerSec=5; //fps
 bool printDirection=false;
 bool skipIntro=false; //default false
-int levelMode=true;
-int startingLevel=1;
-int sensitivity=150; //joystick sensitivity
+byte levelMode=true;
+byte startingLevel=1;
+uint16_t sensitivity=150; //joystick sensitivity
 bool sounds=true;
 
 //Protagonist
@@ -19,31 +19,31 @@ bool randomSpawn=true;
 
 //Fruits
 bool fruitMode=true;
-int numFruits=8; //set custom #fruits when levelMode is off
+byte numFruits=8; //set custom #fruits when levelMode is off
 String fruitIcon="o";
 
 //Spike
 bool spikeMode=true;
-int numSpikes=5; //set custom #spikes when levelMode is off
+byte numSpikes=5; //set custom #spikes when levelMode is off
 String spikeIcon="*";
 
 //Custom Level
-int numCustomFruits;
-int numCustomSpikes;
+byte numCustomFruits;
+byte numCustomSpikes;
 
 
 //</Preferences>
 
 //LCD
-int cursorX;
-int cursorY;
+uint16_t cursorX;
+uint16_t cursorY;
 
 //Joystick
-const char switchPin=12;
+const byte switchPin=12;
 int joystickX, joystickY;
 int midpoint=1024/2; //when joystick at rest
-const char joystickXPin=A0;
-const char joystickYPin=A1;
+const byte joystickXPin=A0;
+const byte joystickYPin=A1;
 
 /* Each array is a fruit/spike with:
  First digit - x coordinate
@@ -51,28 +51,27 @@ const char joystickYPin=A1;
  Last digit - fruit/spike's existance (if 1, exists; if 0, not exist
 */
 
-int level=startingLevel;
-int fruits[16*2][3];
-int spikes[16*2][3];
+byte level=startingLevel;
+byte fruits[16*2][3];
+byte spikes[16*2][3];
 
 //button
-const int buttonPin=4;
+const byte buttonPin=4;
 bool buttonPressed=false;
 bool pButtonPressed=false;
 //Sound
-const int speakerPin=13;
+const byte speakerPin=13;
 
 //Preferences Window in Preferences.ino
 
 void setup() {
   Serial.begin(9600);
-  noise(8);
   pinMode(switchPin, INPUT);
   pinMode(buttonPin, INPUT);
   pinMode(speakerPin, OUTPUT);
   digitalWrite(switchPin, HIGH);
   lcd.begin(16, 2);
-  
+  noise(8); //starting noise
   if (!skipIntro) {
     bool showFruit=true;
     for (int i=0; i<16; i++) { //5-second intro
@@ -297,7 +296,7 @@ bool showFruits() {
 }
 int numFruitsLeft() { //calculates if any fruits left
   int num=0;
-  for (int i=0; i<numFruits; i++) {
+  for (byte i=0; i<numFruits; i++) {
     if (fruits[i][2]) { //a fruit left
       num++;
     }
